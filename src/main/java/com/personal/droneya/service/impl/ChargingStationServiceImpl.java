@@ -13,12 +13,12 @@ public class ChargingStationServiceImpl implements IChargingStationService {
     private ICharginStationRepository chargingStationRepository;
 
     @Override
-    public ChargingStation createUser(ChargingStation chargingStation) {
+    public ChargingStation createStation(ChargingStation chargingStation) {
         return chargingStationRepository.save(chargingStation);
     }
 
     @Override
-    public ChargingStation readUser(Integer id) {
+    public ChargingStation readStation(Integer id) {
         Optional<ChargingStation> charginStationDB = chargingStationRepository.findById(id);
         if (charginStationDB.isPresent()){
             return charginStationDB.get();
@@ -29,7 +29,7 @@ public class ChargingStationServiceImpl implements IChargingStationService {
     }
 
     @Override
-    public ChargingStation updateUser(ChargingStation chargingStation, Integer id) {
+    public ChargingStation updateStation(ChargingStation chargingStation, Integer id) {
         Optional<ChargingStation> chargingStationOP = chargingStationRepository.findById(id);
         if (chargingStationOP.isPresent()){
             ChargingStation charginStationDB = chargingStationOP.get();
@@ -42,7 +42,7 @@ public class ChargingStationServiceImpl implements IChargingStationService {
     }
 
     @Override
-    public ChargingStation deleteUser(Integer id) {
+    public ChargingStation deleteStation(Integer id) {
         Optional<ChargingStation> chargingStationDL = chargingStationRepository.findById(id);
         if (chargingStationDL.isPresent()){
             chargingStationRepository.deleteById(id);

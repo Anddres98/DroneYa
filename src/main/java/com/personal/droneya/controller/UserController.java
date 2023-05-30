@@ -30,6 +30,11 @@ public class UserController {
         return ResponseEntity.ok(userService.readUser(id));
     }
 
+    @PostMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user, Integer id){
+        return ResponseEntity.ok(userService.updateUser(user, id));
+    }
+
 
 
 }

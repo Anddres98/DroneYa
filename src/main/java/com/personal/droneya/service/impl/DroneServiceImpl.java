@@ -17,12 +17,12 @@ public class DroneServiceImpl implements IDroneService {
     private IDroneRepository droneRepository;
 
     @Override
-    public Drone createUser(Drone drone) {
+    public Drone createDrone(Drone drone) {
         return droneRepository.save(drone);
     }
 
     @Override
-    public Drone readUser(Integer id) {
+    public Drone readDrone(Integer id) {
         Optional<Drone> droneDB = droneRepository.findById(id);
         if (droneDB.isPresent()){
             return droneDB.get();
@@ -33,7 +33,7 @@ public class DroneServiceImpl implements IDroneService {
     }
 
     @Override
-    public Drone updateUser(Drone drone, Integer id) {
+    public Drone updateDrone(Drone drone, Integer id) {
         Optional<Drone> droneOP = droneRepository.findById(id);
         if (droneOP.isPresent()){
             Drone droneDB = droneOP.get();
@@ -46,7 +46,7 @@ public class DroneServiceImpl implements IDroneService {
     }
 
     @Override
-    public Drone deleteUser(Integer id) {
+    public Drone deleteDrone(Integer id) {
         Optional<Drone> droneDl = droneRepository.findById(id);
         if (droneDl.isPresent()){
             droneRepository.deleteById(id);

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 
 public interface IChargingStationService {
-    public ChargingStation createUser(ChargingStation chargingStation);
-    public ChargingStation readUser(Integer id);
-    public ChargingStation updateUser(ChargingStation chargingStation, Integer id);
-    public ChargingStation deleteUser(Integer id);
+    public ChargingStation createStation(ChargingStation chargingStation);
+    public ChargingStation readStation(Integer id);
+    public ChargingStation updateStation(ChargingStation chargingStation, Integer id);
+    public ChargingStation deleteStation(Integer id);
 }
