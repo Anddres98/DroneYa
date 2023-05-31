@@ -19,7 +19,7 @@ public class UserController {
      * @return un ResponseEntity(Formato JSon de tipo usuario) coge el usuario con sus atributos y
      * crea un JSON
      */
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<User> createUser(@RequestBody User user){
         return ResponseEntity.ok(userService.createUser(user));
     }
@@ -30,9 +30,14 @@ public class UserController {
         return ResponseEntity.ok(userService.readUser(id));
     }
 
-    @PostMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user, Integer id){
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam Integer id){
         return ResponseEntity.ok(userService.updateUser(user, id));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<User> deleteUser(@RequestParam Integer id){
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 

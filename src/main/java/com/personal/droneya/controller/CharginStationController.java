@@ -7,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/Stations")
+@RequestMapping("/api/v1/stations")
 public class CharginStationController {
 
     @Autowired
     private IChargingStationService chargingStationService;
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<ChargingStation> getStation(@RequestBody ChargingStation station){
         return ResponseEntity.ok(chargingStationService.createStation(station));
     }
@@ -23,8 +23,13 @@ public class CharginStationController {
         return ResponseEntity.ok(chargingStationService.readStation(id));
     }
 
-    @PostMapping
-    public ResponseEntity<ChargingStation> updateStation(@RequestBody ChargingStation station, Integer id){
+    @PutMapping
+    public ResponseEntity<ChargingStation> updateStation(@RequestBody ChargingStation station, @RequestParam Integer id){
         return ResponseEntity.ok(chargingStationService.updateStation(station, id));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ChargingStation> deleteStation(@RequestParam Integer id){
+        return ResponseEntity.ok(chargingStationService.deleteStation(id));
     }
 }

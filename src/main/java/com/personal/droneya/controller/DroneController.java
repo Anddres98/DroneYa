@@ -14,7 +14,7 @@ public class DroneController {
     @Autowired
     private IDroneService droneService;
 
-    @PostMapping
+    @PostMapping("/save")
     private ResponseEntity<Drone> createDrone(@RequestBody Drone drone){
         return ResponseEntity.ok(droneService.createDrone(drone));
     }
@@ -24,8 +24,13 @@ public class DroneController {
         return ResponseEntity.ok(droneService.readDrone(id));
     }
 
-    @PostMapping
-    private ResponseEntity<Drone> updateDrone(@RequestBody Drone drone, Integer id){
+    @PutMapping
+    private ResponseEntity<Drone> updateDrone(@RequestBody Drone drone, @RequestParam Integer id){
         return ResponseEntity.ok(droneService.updateDrone(drone, id));
+    }
+
+    @DeleteMapping
+    private ResponseEntity<Drone> deletDrone(@RequestParam Integer id){
+        return ResponseEntity.ok(droneService.deleteDrone(id));
     }
 }

@@ -4,9 +4,11 @@ import com.personal.droneya.model.entity.ChargingStation;
 import com.personal.droneya.repository.ICharginStationRepository;
 import com.personal.droneya.service.IChargingStationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ChargingStationServiceImpl implements IChargingStationService {
 
     @Autowired
