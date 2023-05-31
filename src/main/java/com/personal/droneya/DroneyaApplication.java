@@ -1,6 +1,7 @@
 package com.personal.droneya;
 
 import com.personal.droneya.service.impl.EmeilSenderService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +18,7 @@ public class DroneyaApplication {
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void triggerMail(){
+	public void triggerMail() throws MessagingException {
 		service.sendSimpleEmail("Aquien se va enviar",
 				"contenido del mail",
 				"el asunto del mail");
