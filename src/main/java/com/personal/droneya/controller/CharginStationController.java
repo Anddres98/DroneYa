@@ -2,6 +2,7 @@ package com.personal.droneya.controller;
 
 import com.personal.droneya.model.entity.ChargingStation;
 import com.personal.droneya.service.IChargingStationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/Stations")
 public class CharginStationController {
 
+    @Autowired
     private IChargingStationService chargingStationService;
 
     @PostMapping
