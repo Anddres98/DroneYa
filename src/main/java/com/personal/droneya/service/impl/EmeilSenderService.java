@@ -23,7 +23,7 @@ public class EmeilSenderService {
 
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setFrom("Emeil de donde se envia");
+        message.setFrom("pronto.codee@gmail.com");
         message.setTo(toEmail);
         message.setTo(body);
         message.setTo(subject);
@@ -42,7 +42,7 @@ public class EmeilSenderService {
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, true);
 
-        mimeMessageHelper.setFrom("De que correo sale");
+        mimeMessageHelper.setFrom("pronto.codee@gmail.com");
         //El toEmil es para cual correo se va enviar
         mimeMessageHelper.setTo(toEmail);
         mimeMessageHelper.setText(body);
@@ -53,6 +53,7 @@ public class EmeilSenderService {
 
         mimeMessageHelper.addAttachment(fileSystem.getFilename(),
                 fileSystem);
+
 
         mailSender.send(mimeMessage);
         System.out.println("mail send whit attachment");
