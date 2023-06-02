@@ -1,6 +1,7 @@
 package com.personal.droneya.service.impl;
 
 import com.personal.droneya.model.entity.Drone;
+import com.personal.droneya.model.entity.User;
 import com.personal.droneya.repository.IDroneRepository;
 import com.personal.droneya.service.IDroneService;
 import jakarta.persistence.Id;
@@ -56,4 +57,8 @@ public class DroneServiceImpl implements IDroneService {
                 .name("Drone not found")
                 .build();
     }
+
+
+
+
 }

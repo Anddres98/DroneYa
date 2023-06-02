@@ -33,4 +33,6 @@ public class DroneController {
     private ResponseEntity<Drone> deletDrone(@RequestParam Integer id){
         return ResponseEntity.ok(droneService.deleteDrone(id));
     }
+
+
 }

@@ -1,7 +1,10 @@
 package com.personal.droneya.service.impl;
 
+import com.personal.droneya.model.entity.Drone;
 import com.personal.droneya.model.entity.User;
+import com.personal.droneya.repository.IDroneRepository;
 import com.personal.droneya.repository.IUserRepository;
+import com.personal.droneya.service.IDroneService;
 import com.personal.droneya.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IDroneRepository droneRepository;
 
     @Override
     public User createUser(User user) {
@@ -55,5 +61,17 @@ public class UserServiceImpl implements IUserService {
         return User.builder()
                 .name("User not Found")
                 .build();
+    }
+
+    @Override
+    public User addDrone(User user){
+        user.getDrones().forEach(drone-> {
+                drone.setUser(user);
+                droneRepository.save(drone);
+            }
+        );
+
+       // user.getDrones().add(drone);
+        return userRepository.save(user);
     }
 }

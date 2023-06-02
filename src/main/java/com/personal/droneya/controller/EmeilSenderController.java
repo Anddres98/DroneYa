@@ -21,8 +21,8 @@ public class EmeilSenderController {
                 "contenido del mail",
                 "el asunto del mail");*/
 
-        service.sendEmailWhitAttachment("pronto.codee@gmail.com",
-                "you only need take a photoghap the your credit card",
+        service.sendEmailWhitAttachment("andress.pardo98@gmail.com",
+                "<h1> Congrats </h1> /s",
                 "Offert punch here and you should next winner the this offert",
                 "C:\\Users\\Andres Pardo\\OneDrive\\Escritorio\\Cursos Programacion\\Proyecto Drone\\droneya\\droneya\\src\\main\\java\\com\\personal\\droneya\\controller\\image.png");
     }

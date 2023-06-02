@@ -2,6 +2,7 @@ package com.personal.droneya.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +23,7 @@ public class Drone {
     private Double longitude;
     private Double latitude;
     private String type;
+    @ManyToOne
+    private User user;
 
 }

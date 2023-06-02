@@ -1,5 +1,6 @@
 package com.personal.droneya.service.impl;
 
+import com.personal.droneya.service.IEmailSenderService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,25 +13,11 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class EmeilSenderService {
+public class EmeilSenderService implements IEmailSenderService {
 
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendSimpleEmail(String toEmail,
-                                String body,
-                                String subject){
-
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setFrom("pronto.codee@gmail.com");
-        message.setTo(toEmail);
-        message.setTo(body);
-        message.setTo(subject);
-
-        mailSender.send(message);
-        System.out.println("Mail send...");
-    }
 
     public void sendEmailWhitAttachment(String toEmail,
                                         String body,
@@ -58,6 +45,19 @@ public class EmeilSenderService {
         mailSender.send(mimeMessage);
         System.out.println("mail send whit attachment");
 
+    }
+
+    @Override
+    public void sendEmail(String toEmail, String body, String subject, String attachment) {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setFrom("pronto.codee@gmail.com");
+        message.setTo(toEmail);
+        message.setTo(body);
+        message.setTo(subject);
+
+        mailSender.send(message);
+        System.out.println("Mail send...");
     }
 
 }

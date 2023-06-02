@@ -40,6 +40,11 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
+    @PutMapping("/addDrone")
+    public ResponseEntity<User> addDrone(@RequestBody User user){
+        return ResponseEntity.ok(userService.addDrone(user));
+    }
+
 
 
 }
