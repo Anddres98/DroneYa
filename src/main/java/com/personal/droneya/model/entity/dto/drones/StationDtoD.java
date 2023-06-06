@@ -1,24 +1,29 @@
 package com.personal.droneya.model.entity.dto.drones;
 
-import com.personal.droneya.model.entity.ChargingStation;
+import com.personal.droneya.model.entity.Drone;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DroneDtoD {
+public class StationDtoD {
 
     private Integer id;
     private String name;
     private String description;
-    private String status;
     private Double longitude;
     private Double latitude;
-    private String type;
-    private UserDtoD user;
-    private StationDtoD station;
+    private Integer capacity;
+
 }

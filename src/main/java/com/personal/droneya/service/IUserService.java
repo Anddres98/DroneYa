@@ -2,6 +2,7 @@ package com.personal.droneya.service;
 
 import com.personal.droneya.model.entity.User;
 import com.personal.droneya.model.entity.dto.user.UserDtoU;
+import jakarta.persistence.UniqueConstraint;
 
 /***
  * Aqui va la logica de la aplicacion
@@ -20,6 +21,8 @@ public interface IUserService {
     UserDtoU deleteUser(Integer id);
 
     UserDtoU addDrone(User user, Integer idDrone);
+
+    UserDtoU removeDrone(User user, Integer idDrone);
 
 
 }

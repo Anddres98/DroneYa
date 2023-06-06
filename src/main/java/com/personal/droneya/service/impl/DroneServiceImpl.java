@@ -1,8 +1,10 @@
 package com.personal.droneya.service.impl;
 
+import com.personal.droneya.model.entity.ChargingStation;
 import com.personal.droneya.model.entity.Drone;
 import com.personal.droneya.model.entity.User;
 import com.personal.droneya.model.entity.dto.drones.DroneDtoD;
+import com.personal.droneya.model.entity.dto.drones.StationDtoD;
 import com.personal.droneya.model.entity.dto.drones.UserDtoD;
 import com.personal.droneya.model.entity.dto.user.DroneDtoU;
 import com.personal.droneya.model.entity.dto.user.UserDtoU;
@@ -20,9 +22,9 @@ public class DroneServiceImpl implements IDroneService {
     private IDroneRepository droneRepository;
 
     @Override
-    public DroneDtoU createDrone(Drone drone) {
+    public DroneDtoD createDrone(Drone drone) {
         droneRepository.save(drone);
-        return DroneDtoU.builder()
+        return DroneDtoD.builder()
                 .id(drone.getId())
                 .name(drone.getName())
                 .type(drone.getType())
@@ -48,6 +50,7 @@ public class DroneServiceImpl implements IDroneService {
                     .latitude(drone.getLatitude())
                     .longitude(drone.getLongitude())
                     .type(drone.getType())
+                    .station(StationMappStationDtoD(drone.getStation()))
                     .build();
 
         }
@@ -56,24 +59,38 @@ public class DroneServiceImpl implements IDroneService {
                 .build();
     }
 
+    public StationDtoD StationMappStationDtoD(ChargingStation station){
+        if (station == null){
+            return null;
+        }
+        return StationDtoD.builder()
+                .id(station.getId())
+                .capacity(station.getCapacity())
+                .name(station.getName())
+                .description(station.getDescription())
+                .latitude(station.getLatitude())
+                .longitude(station.getLongitude())
+                .capacity(station.getCapacity())
+                .build();
+    }
     @Override
-    public DroneDtoU updateDrone(Drone drone, Integer id) {
+    public DroneDtoD updateDrone(Drone drone, Integer id) {
         Optional<Drone> droneOP = droneRepository.findById(id);
         if (droneOP.isPresent()){
             Drone droneDB = droneOP.get();
             droneDB.setStatus(drone.getStatus());
             droneRepository.save(droneDB);
 
-            DroneDtoU droneDto = new DroneDtoU();
-
-            return DroneDtoU.builder()
-                    .id(id)
-                    .name(drone.getName())
-                    .description(drone.getDescription())
+            return DroneDtoD.builder()
+                    .id(droneDB.getId())
+                    .name(droneDB.getName())
+                    .description(droneDB.getDescription())
                     .status(droneDB.getStatus())
+                    .latitude(droneDB.getLatitude())
+                    .longitude(droneDB.getLongitude())
                     .build();
         }
-        return DroneDtoU.builder()
+        return DroneDtoD.builder()
                 .name("Drone not found")
                 .build();
     }
@@ -88,7 +105,7 @@ public class DroneServiceImpl implements IDroneService {
                     .id(droneDl.get().getId())
                     .name(droneDl.get().getName())
                     .status(droneDl.get().getStatus())
-                    .user(userMapperUserDto(droneDl.get().getUser()))
+                    //.user(userMapperUserDto(droneDl.get().getUser()))
                     .build();
         }
         return DroneDtoD.builder()
@@ -96,8 +113,11 @@ public class DroneServiceImpl implements IDroneService {
                 .build();
     }
 
-    public DroneDtoU droneMapperDroneDto(Drone drone){
-        return DroneDtoU.builder()
+    public DroneDtoD droneMapperDroneDto(Drone drone){
+        if (drone == null){
+            return null;
+        }
+        return DroneDtoD.builder()
                 .id(drone.getId())
                 .name(drone.getName())
                 .description(drone.getDescription())
@@ -110,6 +130,10 @@ public class DroneServiceImpl implements IDroneService {
     }
 
     public UserDtoD userMapperUserDto(User user){
+        if (user == null){
+            return null;
+        }
+
         return UserDtoD.builder()
                 .id(user.getId())
                 .name(user.getName())

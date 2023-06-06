@@ -1,7 +1,9 @@
 package com.personal.droneya.controller;
 
 import com.personal.droneya.model.entity.Drone;
+import com.personal.droneya.model.entity.dto.chargin.StationDtoC;
 import com.personal.droneya.model.entity.dto.drones.DroneDtoD;
+import com.personal.droneya.model.entity.dto.drones.StationDtoD;
 import com.personal.droneya.model.entity.dto.user.DroneDtoU;
 import com.personal.droneya.repository.IUserRepository;
 import com.personal.droneya.service.IDroneService;
@@ -20,7 +22,7 @@ public class DroneController {
     private IUserRepository userRepository;
 
     @PostMapping("/save")
-    private ResponseEntity<DroneDtoU> createDrone(@RequestBody Drone drone){
+    private ResponseEntity<DroneDtoD> createDrone(@RequestBody Drone drone){
         return ResponseEntity.ok(droneService.createDrone(drone));
     }
 
@@ -30,7 +32,7 @@ public class DroneController {
     }
 
     @PutMapping
-    private ResponseEntity<DroneDtoU> updateDrone(@RequestBody Drone drone, @RequestParam Integer id){
+    private ResponseEntity<DroneDtoD> updateDrone(@RequestBody Drone drone, @RequestParam Integer id){
         return ResponseEntity.ok(droneService.updateDrone(drone, id));
     }
 

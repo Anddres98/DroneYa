@@ -4,6 +4,8 @@ import com.personal.droneya.model.entity.User;
 import com.personal.droneya.model.entity.dto.user.UserDtoU;
 import com.personal.droneya.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +49,15 @@ public class UserController {
         return ResponseEntity.ok(userService.addDrone(user, id));
     }
 
+   /*@GetMapping
+    public ResponseEntity<Page<User>> listUsers(Pageable pageable){
+        return ResponseEntity.ok(userRepository.findAll(pageable));
+    }*/
 
+    @PutMapping("/removeDrone")
+    public ResponseEntity<UserDtoU> removeDrone(@RequestBody User user, @RequestParam Integer id){
+        return ResponseEntity.ok(userService.removeDrone(user, id));
+    }
 
 
 }

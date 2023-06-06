@@ -28,4 +28,9 @@ public class Drone {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "station_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ChargingStation station;
+
 }

@@ -1,12 +1,12 @@
 package com.personal.droneya.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -17,6 +17,7 @@ import java.util.List;
 public class ChargingStation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
@@ -24,8 +25,8 @@ public class ChargingStation {
     private Double latitude;
     private Integer capacity;
 
-    /*
-    private List<Drone> drones;
-*/
+    @OneToMany(mappedBy = "station" )
+    private List<Drone> dronesC = new ArrayList<>();
+
 }
 
