@@ -1,9 +1,7 @@
 package com.personal.droneya.service;
 
-import com.personal.droneya.model.entity.Drone;
 import com.personal.droneya.model.entity.User;
-
-import java.util.Optional;
+import com.personal.droneya.model.entity.dto.user.UserDtoU;
 
 /***
  * Aqui va la logica de la aplicacion
@@ -16,12 +14,12 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    User createUser(User user);
-    User readUser(Integer id);
-    User updateUser(User user, Integer id);
-    User deleteUser(Integer id);
+    UserDtoU createUser(User user);
+    UserDtoU readUser(Integer id);
+    UserDtoU updateUser(User user, Integer id);
+    UserDtoU deleteUser(Integer id);
 
-    User addDrone(User user);
+    UserDtoU addDrone(User user, Integer idDrone);
 
 
 }

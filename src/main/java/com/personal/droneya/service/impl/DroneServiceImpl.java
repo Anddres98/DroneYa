@@ -2,13 +2,15 @@ package com.personal.droneya.service.impl;
 
 import com.personal.droneya.model.entity.Drone;
 import com.personal.droneya.model.entity.User;
+import com.personal.droneya.model.entity.dto.drones.DroneDtoD;
+import com.personal.droneya.model.entity.dto.drones.UserDtoD;
+import com.personal.droneya.model.entity.dto.user.DroneDtoU;
+import com.personal.droneya.model.entity.dto.user.UserDtoU;
 import com.personal.droneya.repository.IDroneRepository;
 import com.personal.droneya.service.IDroneService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -18,47 +20,104 @@ public class DroneServiceImpl implements IDroneService {
     private IDroneRepository droneRepository;
 
     @Override
-    public Drone createDrone(Drone drone) {
-        return droneRepository.save(drone);
+    public DroneDtoU createDrone(Drone drone) {
+        droneRepository.save(drone);
+        return DroneDtoU.builder()
+                .id(drone.getId())
+                .name(drone.getName())
+                .type(drone.getType())
+                .longitude(drone.getLongitude())
+                .description(drone.getDescription())
+                .latitude(drone.getLatitude())
+                .status(drone.getStatus())
+                .build();
+
     }
 
     @Override
-    public Drone readDrone(Integer id) {
+    public DroneDtoD readDrone(Integer id) {
         Optional<Drone> droneDB = droneRepository.findById(id);
         if (droneDB.isPresent()){
-            return droneDB.get();
+            Drone drone = droneDB.get();
+            return DroneDtoD.builder()
+                    .id(drone.getId())
+                    .name(drone.getName())
+                    .status(drone.getStatus())
+                    .description(drone.getDescription())
+                    .user(userMapperUserDto(drone.getUser()))
+                    .latitude(drone.getLatitude())
+                    .longitude(drone.getLongitude())
+                    .type(drone.getType())
+                    .build();
+
         }
-        return Drone.builder()
+        return DroneDtoD.builder()
                 .name("Invalid Drone")
                 .build();
     }
 
     @Override
-    public Drone updateDrone(Drone drone, Integer id) {
+    public DroneDtoU updateDrone(Drone drone, Integer id) {
         Optional<Drone> droneOP = droneRepository.findById(id);
         if (droneOP.isPresent()){
             Drone droneDB = droneOP.get();
             droneDB.setStatus(drone.getStatus());
-            return droneRepository.save(droneDB);
+            droneRepository.save(droneDB);
+
+            DroneDtoU droneDto = new DroneDtoU();
+
+            return DroneDtoU.builder()
+                    .id(id)
+                    .name(drone.getName())
+                    .description(drone.getDescription())
+                    .status(droneDB.getStatus())
+                    .build();
         }
-        return Drone.builder()
+        return DroneDtoU.builder()
                 .name("Drone not found")
                 .build();
     }
 
     @Override
-    public Drone deleteDrone(Integer id) {
+    public DroneDtoD deleteDrone(Integer id) {
         Optional<Drone> droneDl = droneRepository.findById(id);
         if (droneDl.isPresent()){
             droneRepository.deleteById(id);
-            return droneDl.get();
+
+            return DroneDtoD.builder()
+                    .id(droneDl.get().getId())
+                    .name(droneDl.get().getName())
+                    .status(droneDl.get().getStatus())
+                    .user(userMapperUserDto(droneDl.get().getUser()))
+                    .build();
         }
-        return Drone.builder()
+        return DroneDtoD.builder()
                 .name("Drone not found")
                 .build();
     }
 
+    public DroneDtoU droneMapperDroneDto(Drone drone){
+        return DroneDtoU.builder()
+                .id(drone.getId())
+                .name(drone.getName())
+                .description(drone.getDescription())
+                .latitude(drone.getLatitude())
+                .longitude(drone.getLongitude())
+                .type(drone.getType())
+                .status(drone.getStatus())
+                //.userDto(userMapperUserDto(drone.getUser()))
+                .build();
+    }
 
+    public UserDtoD userMapperUserDto(User user){
+        return UserDtoD.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                //.dronesDto(user.getDrones().stream().map(this::droneMapperDroneDto).collect(Collectors.toList()))
+                .build();
+    }
 
 
 }

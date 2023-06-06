@@ -1,8 +1,6 @@
-package com.personal.droneya.model.entity.dtoEntity;
+package com.personal.droneya.model.entity.dto.drones;
 
-import com.personal.droneya.model.entity.Drone;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.personal.droneya.model.entity.dto.user.DroneDtoU;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +13,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDtoD {
 
     private Integer id;
     private String name;
     private String lastName;
     private String email;
-    private List<Drone> drones = new ArrayList<>();
+    //private List<DroneDtoU> drones = new ArrayList<>();
 }

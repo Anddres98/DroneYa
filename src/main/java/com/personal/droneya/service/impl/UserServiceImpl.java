@@ -2,14 +2,21 @@ package com.personal.droneya.service.impl;
 
 import com.personal.droneya.model.entity.Drone;
 import com.personal.droneya.model.entity.User;
+import com.personal.droneya.model.entity.dto.user.DroneDtoU;
+import com.personal.droneya.model.entity.dto.user.UserDtoU;
 import com.personal.droneya.repository.IDroneRepository;
 import com.personal.droneya.repository.IUserRepository;
-import com.personal.droneya.service.IDroneService;
 import com.personal.droneya.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -21,57 +28,143 @@ public class UserServiceImpl implements IUserService {
     private IDroneRepository droneRepository;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDtoU createUser(User user) {
+        User userSave = userRepository.save(user);
+
+        return UserDtoU.builder()
+                .id(userSave.getId())
+                .name(userSave.getName())
+                .lastName(userSave.getLastName())
+                .email(userSave.getEmail())
+                .build();
+
     }
 
     @Override
-    public User readUser(Integer id) {
+    public UserDtoU readUser(Integer id) {
         Optional<User> userDB = userRepository.findById(id);
-        System.out.println("Aqui get "+userDB);
+
         if (userDB.isPresent()){
-            return userDB.get();
+           User user = userDB.get();
+            return UserDtoU.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .drones(user.getDrones().stream().map(this::droneMapperDroneDto).collect(Collectors.toList()))
+                    .build();
         }
-        return User.builder()
+
+        return UserDtoU.builder()
                 .id(911)
                 .name("Invalid User")
                 .build();
     }
 
+    public DroneDtoU droneMapperDroneDto(Drone drone){
+        return DroneDtoU.builder()
+                .id(drone.getId())
+                .name(drone.getName())
+                .description(drone.getDescription())
+                .latitude(drone.getLatitude())
+                .longitude(drone.getLongitude())
+                .type(drone.getType())
+                .status(drone.getStatus())
+                //.userDto(userMapperUserDto(drone.getUser()))
+                .build();
+    }
+
+    public UserDtoU userMapperUserDto(User user){
+        return UserDtoU.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                //.dronesDto(user.getDrones().stream().map(this::droneMapperDroneDto).collect(Collectors.toList()))
+                .build();
+    }
+
     @Override
-    public User updateUser(User user, Integer id) {
+    public UserDtoU updateUser(User user, Integer id) {
         Optional<User> userOP = userRepository.findById(id);
+
         if(userOP.isPresent()){
             User userDB = userOP.get();
             userDB.setEmail(user.getEmail());
-            return userRepository.save(userDB);
+            userRepository.save(userDB);
+
+            UserDtoU userDto = new UserDtoU().builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .build();
+            return userDto;
         }
-        return User.builder()
+        return UserDtoU.builder()
                 .name("User not found")
                 .build();
     }
 
     @Override
-    public User deleteUser(Integer id) {
+    public UserDtoU deleteUser(Integer id) {
         Optional<User> userDL = userRepository.findById(id);
         if(userDL.isPresent()){
             userRepository.deleteById(id);
-            return userDL.get();
+            UserDtoU userDto = new UserDtoU();
+            userDto = UserDtoU.builder()
+                    .id(userDto.getId())
+                    .name(userDto.getName())
+                    .lastName(userDto.getLastName())
+                    .email(userDto.getEmail())
+                    .drones(userDto.getDrones())
+                    .build();
+            return userDto;
         }
-        return User.builder()
+        return UserDtoU.builder()
                 .name("User not Found")
                 .build();
     }
 
     @Override
-    public User addDrone(User user){
-        user.getDrones().forEach(drone-> {
-                drone.setUser(user);
-                droneRepository.save(drone);
-            }
-        );
+    public UserDtoU addDrone(User user, Integer idDrone){
+        Optional<Drone> droneOP = droneRepository.findById(idDrone);
+        Optional<User> userOP = userRepository.findById(user.getId());
 
-       // user.getDrones().add(drone);
-        return userRepository.save(user);
+        if (droneOP.isEmpty() || userOP.isEmpty()){
+            return null;
+        }
+        User userDB = userOP.get();
+        Drone droneDB = droneOP.get();
+
+        if (droneDB.getUser() != null){
+            return null;
+        }
+        /*userDB.getDrones().forEach(drone-> {
+            drone.setUser(user);
+            }
+        );*/
+        List<Drone> listDron = userDB.getDrones();
+        listDron.add(droneDB);
+        droneDB.setUser(userDB);
+        userDB.setDrones(listDron);
+        droneRepository.save(droneDB);// user.getDrones().add(drone);
+        userRepository.save(userDB);
+
+
+        return UserDtoU.builder()
+                .id(userDB.getId())
+                .name(userDB.getName())
+                .lastName(userDB.getLastName())
+                .email(userDB.getEmail())
+                .drones(userDB.getDrones().stream().map(this::droneMapperDroneDto).collect(Collectors.toList()))
+                .build();
+
+
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<User>> listUsers(Pageable pageable){
+        return ResponseEntity.ok(userRepository.findAll(pageable));
     }
 }

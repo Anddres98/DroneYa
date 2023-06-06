@@ -1,6 +1,7 @@
 package com.personal.droneya.controller;
 
 import com.personal.droneya.model.entity.User;
+import com.personal.droneya.model.entity.dto.user.UserDtoU;
 import com.personal.droneya.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +21,32 @@ public class UserController {
      * crea un JSON
      */
     @PostMapping("/save")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<UserDtoU> createUser(@RequestBody User user){
+
         return ResponseEntity.ok(userService.createUser(user));
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Integer id){
+    public ResponseEntity<UserDtoU> getUser(@PathVariable Integer id){
         return ResponseEntity.ok(userService.readUser(id));
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam Integer id){
+    public ResponseEntity<UserDtoU> updateUser(@RequestBody User user, @RequestParam Integer id){
         return ResponseEntity.ok(userService.updateUser(user, id));
     }
 
     @DeleteMapping
-    public ResponseEntity<User> deleteUser(@RequestParam Integer id){
+    public ResponseEntity<UserDtoU> deleteUser(@RequestParam Integer id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @PutMapping("/addDrone")
-    public ResponseEntity<User> addDrone(@RequestBody User user){
-        return ResponseEntity.ok(userService.addDrone(user));
+    public ResponseEntity<UserDtoU> addDrone(@RequestBody User user, @RequestParam Integer id){
+        return ResponseEntity.ok(userService.addDrone(user, id));
     }
+
 
 
 

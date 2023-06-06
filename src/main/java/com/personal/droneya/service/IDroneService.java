@@ -1,15 +1,15 @@
 package com.personal.droneya.service;
 
 import com.personal.droneya.model.entity.Drone;
-import com.personal.droneya.model.entity.User;
-import org.springframework.stereotype.Service;
+import com.personal.droneya.model.entity.dto.drones.DroneDtoD;
+import com.personal.droneya.model.entity.dto.user.DroneDtoU;
 
 
 public interface IDroneService {
-    Drone createDrone(Drone drone);
-    Drone readDrone(Integer id);
-    Drone updateDrone(Drone drone, Integer id);
-    Drone deleteDrone(Integer id);
+    DroneDtoU createDrone(Drone drone);
+    DroneDtoD readDrone(Integer id);
+    DroneDtoU updateDrone(Drone drone, Integer id);
+    DroneDtoD deleteDrone(Integer id);
 
 
 

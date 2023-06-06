@@ -1,8 +1,10 @@
 package com.personal.droneya.controller;
 
 import com.personal.droneya.model.entity.Drone;
+import com.personal.droneya.model.entity.dto.drones.DroneDtoD;
+import com.personal.droneya.model.entity.dto.user.DroneDtoU;
+import com.personal.droneya.repository.IUserRepository;
 import com.personal.droneya.service.IDroneService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +16,26 @@ public class DroneController {
     @Autowired
     private IDroneService droneService;
 
+    @Autowired
+    private IUserRepository userRepository;
+
     @PostMapping("/save")
-    private ResponseEntity<Drone> createDrone(@RequestBody Drone drone){
+    private ResponseEntity<DroneDtoU> createDrone(@RequestBody Drone drone){
         return ResponseEntity.ok(droneService.createDrone(drone));
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Drone> getDrone(@PathVariable Integer id){
+    private ResponseEntity<DroneDtoD> getDrone(@PathVariable Integer id){
         return ResponseEntity.ok(droneService.readDrone(id));
     }
 
     @PutMapping
-    private ResponseEntity<Drone> updateDrone(@RequestBody Drone drone, @RequestParam Integer id){
+    private ResponseEntity<DroneDtoU> updateDrone(@RequestBody Drone drone, @RequestParam Integer id){
         return ResponseEntity.ok(droneService.updateDrone(drone, id));
     }
 
     @DeleteMapping
-    private ResponseEntity<Drone> deletDrone(@RequestParam Integer id){
+    private ResponseEntity<DroneDtoD> deletDrone(@RequestParam Integer id){
         return ResponseEntity.ok(droneService.deleteDrone(id));
     }
 
